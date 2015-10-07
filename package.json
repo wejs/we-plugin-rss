@@ -1,6 +1,6 @@
 {
   "name": "we-plugin-rss",
-  "description": "We.js we-plugin-rss plugin",
+  "description": "We.js RSS responseType plugin",
   "version": "0.3.0",
   "main": "plugin.js",
   "scripts": {
@@ -21,6 +21,11 @@
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org"
+  },
+  "author": "Alberto Souza <alberto.souza.99@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wejs/we-plugin-rss.git"
   },
   "license": "MIT"
 }
