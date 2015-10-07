@@ -9,16 +9,15 @@ Add the rss configuration for every model in you project **config/local.js** fil
 File: **config/local.js**
 ```js
 module.exports = {
-    // - others configs
-    rss: {
-      models: {
-        article: { // model name
-          title: 'My personal blog posts', // title of your xml file
-          description: 'Lista de eventos do site', // description for your xml file
-          item: {
-            title: 'title', // model attribute to get title
-            description: 'teaser'  // model attribute to get description
-          }
+  // - others configs
+  rss: {
+    models: {
+      article: { // model name
+        title: 'My posts!', // title of your xml file
+        description: 'my newest blog posts', // description for your xml file
+        item: {
+          title: 'title', // model attribute to get title
+          description: 'teaser'  // model attribute to get description
         }
       }
     }
@@ -29,10 +28,10 @@ module.exports = {
 
 ## Usage
 
-After configure access your list with **responseType=json** query param like:
+After configure access your list with **responseType=rss** query param like:
 
 ```
-http://localhost:4000/event?responseType=json
+http://localhost:4000/event?responseType=rss
 ```
 
 ## Links

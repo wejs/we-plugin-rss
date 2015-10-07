@@ -2,7 +2,7 @@
   "name": "we-plugin-rss",
   "description": "We.js we-plugin-rss plugin",
   "version": "0.3.0",
-  "main": "lib/index.js",
+  "main": "plugin.js",
   "scripts": {
     "test": "NODE_ENV=test LOG_LV=info ./node_modules/.bin/mocha test/bootstrap.js test/**/*.test.js",
     "prepublish": "npm prune"
