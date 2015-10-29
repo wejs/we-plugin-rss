@@ -29,40 +29,36 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       var we = req.we;
       var cfg =  we.config.rss.models[res.locals.model];
 
-      var xml = '<?xml version="1.0" encoding="utf8"?>'+
-        '<rss version="2.0">'+
-          '<channel>'+
-            '<title>'+ cfg.title+'</title>'+
-            '<description>'+cfg.description+'</description>'+
-            '<link>'+ ( cfg.link || (we.config.hostname+req.url) ) +'</link>'+
-            '<language>'+req.locale+'</language>'+
+      var xml = '<?xml version="1.0" encoding="utf8"?>\n'+
+        '<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">\n'+
+          '<channel>\n'+
+            '<title>'+ cfg.title+'</title>\n'+
+            '<description>'+cfg.description+'</description>\n'+
+            '<link>'+ ( cfg.link || (we.config.hostname+req.url) ) +'</link>\n'+
+            '<language>'+ req.getLocale() +'</language>\n'+
             '<atom:link href="'+we.config.hostname+req.url+
-            '" rel="self" type="application/rss+xml" />';
+            '" rel="self" type="application/rss+xml" />\n';
 
       for (var i = 0; i < data.length; i++) {
-        xml += '<item><title>'+data[i][cfg.item.title]+'</title>';
+        xml += '<item><title>'+data[i][cfg.item.title]+'</title>\n';
 
-        if (data[i].creator && data[i].creator.displayName) {
-          xml += '<author>'+data[i].creator.displayName+'</author>';
-        }
+        xml += '<guid>'+data[i].getLink(req)+'</guid>\n';
+        xml += '<link>'+data[i].getLink(req)+'</link>\n';
 
-        xml += '<guid>'+data[i].getLink(req)+'</guid>';
-        xml += '<link>'+data[i].getLink(req)+'</link>';
-
-        xml += '<pubDate>'+ we.utils.moment(data[i]).format('ddd, DD MMM YYYY HH:mm:ss ZZ') +'</pubDate>'
+        xml += '<pubDate>'+ we.utils.moment(data[i]).format('ddd, DD MMM YYYY HH:mm:ss ZZ') +'</pubDate>\n'
 
         // TODO
         //<category></category>
 
 
         if (cfg.item.description && data[i][cfg.item.description]) {
-          xml += '<description><![CDATA['+ data[i][cfg.item.description] +']]></description>';
+          xml += '<description><![CDATA['+ data[i][cfg.item.description] +']]></description>\n';
         }
 
-        xml += '</item>';
+        xml += '</item>\n';
       }
 
-      xml += '</channel></rss>';
+      xml += '</channel></rss>\n';
       return xml;
     }
 
@@ -100,5 +96,20 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       return we.rss.parseRecordsToRss(data, req, res);
     }
   });
+
+
+  plugin.events.on('we-html-metadata', function(data){
+
+    console.log('>>', data.locals.action);
+    console.log('>>', data.locals.responseType);
+
+    console.log('>>', data.locals.model);
+
+
+
+
+
+  })
+
   return plugin;
 };
