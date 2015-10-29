@@ -29,7 +29,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       var we = req.we;
       var cfg =  we.config.rss.models[res.locals.model];
 
-      var xml = '<?xml version="1.0" encoding="utf8"?>\n'+
+      var xml = '<?xml version="1.0" encoding="utf-8" ?>\n'+
         '<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">\n'+
           '<channel>\n'+
             '<title>'+ cfg.title+'</title>\n'+
