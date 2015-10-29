@@ -92,22 +92,20 @@ module.exports = function loadPlugin(projectPath, Plugin) {
         res.status(400);
         return;
       }
+      // set response header
+      res.set('Content-Type', 'application/xml');
 
       return we.rss.parseRecordsToRss(data, req, res);
     }
   });
 
 
-  plugin.events.on('we-html-metadata', function(data){
-
-    console.log('>>', data.locals.action);
-    console.log('>>', data.locals.responseType);
-
-    console.log('>>', data.locals.model);
-
-
-
-
+  // add rss feed
+  plugin.events.on('we-html-metadata', function (data){
+    if (data.we.config.rss && data.we.config.rss.models[data.locals.model] && data.locals.action == 'find') {
+      data.metatags += '<link rel="alternate" type="application/rss+xml" title="RSS" href="'+
+        data.we.config.hostname + data.locals.req.path+'?responseType=rss">';
+    }
 
   })
 
