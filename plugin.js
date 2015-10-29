@@ -99,8 +99,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     }
   });
 
-
-  // add rss feed
+  // add rss feed metadata
   plugin.events.on('we-html-metadata', function (data){
     if (data.we.config.rss && data.we.config.rss.models[data.locals.model] && data.locals.action == 'find') {
       data.metatags += '<link rel="alternate" type="application/rss+xml" title="RSS" href="'+
