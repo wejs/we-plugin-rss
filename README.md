@@ -1,6 +1,6 @@
 # We.js RSS plugin
 
-> RSS plugin to add suport for RSS response type
+> RSS plugin to add suport to format response in RSS compatible format, avaible for lists
 
 ## Configuration
 
@@ -28,10 +28,10 @@ module.exports = {
 
 ## Usage
 
-After configure access your list with **responseType=rss** query param like:
+After configure access your list with **responseType=rss** query param or **.rss** extension like:
 
 ```
-http://localhost:4000/event?responseType=rss
+http://localhost:4000/event.rss
 ```
 
 ## Links

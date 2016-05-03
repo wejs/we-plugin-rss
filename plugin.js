@@ -75,7 +75,9 @@ module.exports = function loadPlugin(projectPath, Plugin) {
      * @param  {Object} req  express.s request
      * @param  {Object} res  express.js response
      */
-    we.responses.formaters.rss =  function rssFormater(data, req, res) {
+    we.responses.formaters.rss =  function rssFormater(req, res) {
+      var data = res.locals.data;
+
       if (!res.locals.model) {
         // set messages
         data.messages = res.locals.messages;
@@ -95,7 +97,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       // set response header
       res.set('Content-Type', 'application/xml');
 
-      return we.rss.parseRecordsToRss(data, req, res);
+      res.send(we.rss.parseRecordsToRss(data, req, res));
     }
   });
 
