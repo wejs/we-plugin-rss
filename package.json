@@ -1,12 +1,16 @@
 {
   "name": "we-plugin-rss",
   "description": "We.js RSS response format plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "plugin.js",
-  "scripts": {},
   "peerDependencies": {
-    "we-core": ">=1.0.0"
+    "we-core": "*"
   },
+  "files": [
+    "plugin.js",
+    "files/public",
+    "server"
+  ],
   "author": "Alberto Souza <contato@albertosouza.net>",
   "repository": {
     "type": "git",
