@@ -3,9 +3,6 @@
   "description": "We.js RSS response format plugin",
   "version": "1.0.1",
   "main": "plugin.js",
-  "peerDependencies": {
-    "we-core": "*"
-  },
   "files": [
     "plugin.js",
     "files/public",
