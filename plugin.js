@@ -12,6 +12,39 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     }
   });
 
+  /**
+   * The RSS response formater
+   *
+   * @param  {Array} data records
+   * @param  {Object} req  express.s request
+   * @param  {Object} res  express.js response
+   */
+  plugin.rssFormater = function rssFormater(req, res) {
+    var data = res.locals.data;
+    var we = req.we;
+
+    if (!res.locals.model) {
+      // set messages
+      data.messages = res.locals.messages;
+      return data;
+    }
+
+    // not found configurations for this record
+    if (!we.config.rss.models[res.locals.model]) {
+      res.status(400);
+      return;
+    }
+    // not is a array of records
+    if (!we.utils._.isArray(data)) {
+      res.status(400);
+      return;
+    }
+    // set response header
+    res.set('Content-Type', 'application/xml');
+
+    res.send(we.rss.parseRecordsToRss(data, req, res));
+  }
+
   // after load all plugins set response formatters
   plugin.events.on('we:after:load:plugins', function (we) {
     // -- Add the we.rss object
@@ -62,43 +95,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       return xml;
     }
 
-
-    // -- Set the response type
-    //
-    // add in configs
-    we.config.responseTypes.push('rss');
-
-    /**
-     * The RSS response formater
-     *
-     * @param  {Array} data records
-     * @param  {Object} req  express.s request
-     * @param  {Object} res  express.js response
-     */
-    we.responses.formaters.rss =  function rssFormater(req, res) {
-      var data = res.locals.data;
-
-      if (!res.locals.model) {
-        // set messages
-        data.messages = res.locals.messages;
-        return data;
-      }
-
-      // not found configurations for this record
-      if (!we.config.rss.models[res.locals.model]) {
-        res.status(400);
-        return;
-      }
-      // not is a array of records
-      if (!we.utils._.isArray(data)) {
-        res.status(400);
-        return;
-      }
-      // set response header
-      res.set('Content-Type', 'application/xml');
-
-      res.send(we.rss.parseRecordsToRss(data, req, res));
-    }
+    we.responses.addResponseFormater('application/rss+xml', plugin.rssFormater);
+    we.responses.addResponseFormater('rss', plugin.rssFormater);
   });
 
   // add rss feed metadata
