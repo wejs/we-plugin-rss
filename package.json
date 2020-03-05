@@ -1,7 +1,7 @@
 {
   "name": "we-plugin-rss",
   "description": "We.js RSS response format plugin",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "plugin.js",
   "files": [
     "plugin.js",
