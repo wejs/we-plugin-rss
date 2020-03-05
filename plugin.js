@@ -4,7 +4,7 @@
  * see http://wejs.org/docs/we/plugin
  */
 module.exports = function loadPlugin(projectPath, Plugin) {
-  var plugin = new Plugin(__dirname);
+  const plugin = new Plugin(__dirname);
   // set plugin configs
   plugin.setConfigs({
     rss: {
@@ -19,9 +19,9 @@ module.exports = function loadPlugin(projectPath, Plugin) {
    * @param  {Object} req  express.s request
    * @param  {Object} res  express.js response
    */
-  plugin.rssFormater = function rssFormater(req, res) {
-    var data = res.locals.data;
-    var we = req.we;
+  plugin.rssFormater = function (req, res) {
+    let data = res.locals.data;
+    const we = req.we;
 
     if (!res.locals.model) {
       // set messages
@@ -58,11 +58,11 @@ module.exports = function loadPlugin(projectPath, Plugin) {
      * @param  {Object} res  express.js response
      * @return {String} the xml file
      */
-    we.rss.parseRecordsToRss = function parseRecordsToRss(data, req, res) {
-      var we = req.we;
-      var cfg =  we.config.rss.models[res.locals.model];
+    we.rss.parseRecordsToRss = function (data, req, res) {
+      const we = req.we;
+      let cfg =  we.config.rss.models[res.locals.model];
 
-      var xml = '<?xml version="1.0" encoding="utf-8" ?>\n'+
+      let xml = '<?xml version="1.0" encoding="utf-8" ?>\n'+
         '<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">\n'+
           '<channel>\n'+
             '<title>'+ cfg.title+'</title>\n'+
@@ -72,20 +72,20 @@ module.exports = function loadPlugin(projectPath, Plugin) {
             '<atom:link href="'+we.config.hostname+req.url+
             '" rel="self" type="application/rss+xml" />\n';
 
-      for (var i = 0; i < data.length; i++) {
-        xml += '<item><title>'+data[i][cfg.item.title]+'</title>\n';
+      for (let i = 0; i < data.length; i++) {
+        let item = data[i];
 
-        xml += '<guid>'+data[i].getLink(req)+'</guid>\n';
-        xml += '<link>'+data[i].getLink(req)+'</link>\n';
+        xml += '<item><title>'+item[cfg.item.title]+'</title>\n';
 
-        xml += '<pubDate>'+ we.utils.moment(data[i]).format('ddd, DD MMM YYYY HH:mm:ss ZZ') +'</pubDate>\n'
+        xml += '<guid>'+item.getLink(req)+'</guid>\n';
+        xml += '<link>'+item.getLink(req)+'</link>\n';
 
-        // TODO
-        //<category></category>
+        let pubDate = item.publishedAt || item.createdAt;
 
+        xml += '<pubDate>'+ we.utils.moment(pubDate).format('ddd, DD MMM YYYY HH:mm:ss ZZ') +'</pubDate>\n'
 
-        if (cfg.item.description && data[i][cfg.item.description]) {
-          xml += '<description><![CDATA['+ data[i][cfg.item.description] +']]></description>\n';
+        if (cfg.item.description && item[cfg.item.description]) {
+          xml += '<description><![CDATA['+ item[cfg.item.description] +']]></description>\n';
         }
 
         xml += '</item>\n';
