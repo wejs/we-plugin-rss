@@ -20,7 +20,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
    * @param  {Object} res  express.js response
    */
   plugin.rssFormater = function (req, res) {
-    let data = res.locals.data;
+    let data = res.locals.data || {};
     const we = req.we;
 
     if (!res.locals.model) {
